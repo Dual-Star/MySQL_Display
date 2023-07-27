@@ -17,6 +17,7 @@ namespace MySQL_Display
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+           
         }
     }
 }
