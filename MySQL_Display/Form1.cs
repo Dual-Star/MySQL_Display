@@ -40,9 +40,6 @@ namespace MySQL_Display
                 catch (Exception ex)
                 {
                     MessageBox.Show("代码中的连接数据库的参数可能不对！");
-                }
-                finally
-                {
                     connection.Close();
                 }
 
@@ -89,9 +86,6 @@ namespace MySQL_Display
                 catch (Exception ex)
                 {
                     MessageBox.Show("代码中的连接数据库的参数可能不对！");
-                }
-                finally
-                {
                     connection.Close();
                 }
 
