@@ -34,7 +34,9 @@ namespace MySQL_Display
             try
             {
                 connection.Open();
-                var getRow = new MySqlCommand("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'fabric' AND TABLE_NAME = 'fabic_color';", connection);
+
+                // 库名fabic
+                var getRow = new MySqlCommand("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'fabic' AND TABLE_NAME = 'fabic_color';", connection);
 
                 var Rowname = getRow.ExecuteReader();
 
@@ -75,6 +77,16 @@ namespace MySQL_Display
                 String wave_min = textBox1.Text;
                 String wave_max = textBox2.Text;
 
+                // 避免空值
+                if (wave_max.Length==0)
+                {
+                    wave_max = long.MaxValue.ToString();
+                }
+                if (wave_min.Length == 0)
+                {
+                    wave_min= long.MinValue.ToString();
+                }
+
                 // 拼接字符串
                 StringBuilder col_name = new StringBuilder();
                 foreach (var item in choose_item)
@@ -93,7 +105,7 @@ namespace MySQL_Display
                 }
 
                 // 拼接SQL
-                String commmand_string = "Select "+col_name.ToString()+ " from fabric.fabic_color where fact_wave between "+wave_min+" and "+wave_max+";";
+                String commmand_string = "Select "+col_name.ToString()+ " from fabic.fabic_color where fact_wave between "+wave_min+" and "+wave_max+";";
 
                 var getRow = new MySqlCommand(commmand_string, connection);
 
@@ -101,8 +113,9 @@ namespace MySQL_Display
 
                 DataTable dataTable = new DataTable();
                 query_result.Read();
+
                 dataTable.Load(query_result);
-                dataGridView1 = new DataGridView();
+
                 dataGridView1.DataSource = dataTable;
                 
             }
