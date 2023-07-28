@@ -17,7 +17,7 @@ namespace MySQL_Display
 {
     public partial class Form1 : Form
     {
-
+        // 将来这里可以搞一个登录界面
         MySqlConnection connection = new MySqlConnection("Server=localhost;User ID=root;Password=123321");
         List<string> choose_item = new List<string>();
 
@@ -33,7 +33,18 @@ namespace MySQL_Display
             listBox1.Items.Clear();
             try
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("代码中的连接数据库的参数可能不对！");
+                }
+                finally
+                {
+                    connection.Close();
+                }
 
                 // 库名fabic
                 var getRow = new MySqlCommand("SELECT COLUMN_NAME FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = 'fabic' AND TABLE_NAME = 'fabic_color';", connection);
@@ -71,13 +82,24 @@ namespace MySQL_Display
         {
             try
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("代码中的连接数据库的参数可能不对！");
+                }
+                finally
+                {
+                    connection.Close();
+                }
 
                 // 获取所选波长范围
                 String wave_min = textBox1.Text;
                 String wave_max = textBox2.Text;
 
-                // 避免空值
+                // 避免空值，如果没填默认全查
                 if (wave_max.Length==0)
                 {
                     wave_max = long.MaxValue.ToString();
@@ -121,7 +143,8 @@ namespace MySQL_Display
             }
             catch (Exception ex)
             {
-                MessageBox.Show("代码中的拼接SQL可能不对！"); 
+                // 此处可以做一个全选、取消全选
+                MessageBox.Show("请在左边选择想要查看的列名"); 
             }
             finally 
             { 
